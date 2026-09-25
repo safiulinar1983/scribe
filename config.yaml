@@ -1,0 +1,16 @@
+llm:
+  provider: ollama
+  base_url: http://127.0.0.1:11434
+  model: qwen3:14b
+  temperature: 0.2
+  timeout: 180
+
+memory:
+  database: data/memory.db
+  conversations_database: data/conversations.db
+
+skills:
+  directory: skills
+
+security:
+  confirm_delete: true
