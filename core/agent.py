@@ -61,7 +61,7 @@ class Agent:
         sys = SYSTEM + "\n\n" + date_context + "\n\n" + self.skills.combined_prompt()
         if context: sys += '\n\nРелевантная Long-term Memory:\n'+context
         messages=[{'role':'system','content':sys},{'role':'user','content':text}]
-        for _ in range(4):
+        for _ in range(2):
             resp=self.llm.chat(messages,self.registry.definitions())
             if not resp.tool_calls:
                 self.conversations.add(self.cid,'assistant',resp.content); return resp.content
