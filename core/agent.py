@@ -77,7 +77,12 @@ class Agent:
                     self.pending_confirmation = (name, args)
                     result={'error':'confirmation_required','message':f'Для {name} требуется подтверждение пользователя.'}
                 else:
-                    try: result={'ok':True,'result':self.registry.execute(name,args,confirmed=True)}
-                    except Exception as e: result={'ok':False,'error':str(e)}
+                    try:
+                        result = {'ok': True, 'result': self.registry.execute(name, args, confirmed=True)}
+                        if name == 'calendar.create_event':
+                            self.conversations.add(self.cid, 'assistant', f"Событие создано. UID: {result['result']}")
+                            return f"Событие создано. UID: {result['result']}"
+                    except Exception as e:
+                        result = {'ok': False, 'error': str(e)}
                 messages.append({'role':'tool','content':json.dumps(result,ensure_ascii=False),'tool_call_id':call.get('id','')})
         return 'Не удалось завершить цепочку действий за допустимое число шагов.'
